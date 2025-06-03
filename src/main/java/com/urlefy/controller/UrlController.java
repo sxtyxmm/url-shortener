@@ -5,6 +5,8 @@ import com.urlefy.model.UrlRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+
 import java.net.URI;
 import java.util.Optional;
 
@@ -25,5 +27,13 @@ public class UrlController {
     public ResponseEntity<?> redirect(@PathVariable String code) {
         String originalUrl = service.resolveUrl(code);
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(originalUrl)).build();
+    }
+}
+
+@Controller
+class HomeController {
+    @GetMapping("/")
+    public String home() {
+        return "forward:/index.html";
     }
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6fa; margin: 0; padding: 0; }
+        .container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 32px; }
+        h2 { text-align: center; color: #333; }
+        input[type="url"] { width: 100%; padding: 10px; margin: 16px 0; border: 1px solid #ccc; border-radius: 4px; }
+        button { width: 100%; padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 24px; text-align: center; }
+        .short-url { color: #007bff; font-weight: bold; word-break: break-all; }
+        .error { color: #d9534f; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>URL Shortener</h2>
+        <form id="shorten-form">
+            <input type="url" id="url-input" placeholder="Enter your URL here" required />
+            <button type="submit">Make it Short</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        const form = document.getElementById('shorten-form');
+        const urlInput = document.getElementById('url-input');
+        const resultDiv = document.getElementById('result');
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            resultDiv.innerHTML = '';
+            const url = urlInput.value;
+            try {
+                const response = await fetch('/api/shorten', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+                if (!response.ok) throw new Error('Failed to shorten URL');
+                const shortUrl = await response.text();
+                resultDiv.innerHTML = `<div>Your short URL:</div><div class="short-url"><a href="${shortUrl}" target="_blank">${shortUrl}</a></div>`;
+            } catch (err) {
+                resultDiv.innerHTML = `<div class="error">${err.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>
