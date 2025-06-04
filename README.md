@@ -1,135 +1,118 @@
-# 🌐 Urlefy - URL Shortener
+# 🌐 URL Shortener
 
-A fullstack URL Shortener built with **Spring Boot**, **MongoDB**, **Redis**, and **React (Vite)**. Works seamlessly in **GitHub Codespaces**.
+```
+A full-stack URL shortener built with:
 
+-  Backend: Spring Boot + MongoDB + Redis
+-  Frontend: React.js + Tailwind CSS + Vite
+-  Dockerized environment
+-  Developed in GitHub Codespaces
+````
 
+---
 
-## 🔧 Project Structure
+```
+## 🚀 Features
 
+-  Shorten long URLs to short, unique codes
+-  Instant redirection using Redis cache
+-  Persistent storage with MongoDB
+-  Responsive UI using Tailwind CSS
+-  Easy containerization with Docker Compose
+````
+---
 
+## 🛠 Project Structure
+
+```
 
 url-shortener/
-├── backend/          # Spring Boot backend (Java 11)
-├── frontend/         # React frontend (Vite + TypeScript + SWC)
-└── README.md
+├── backend/              # Spring Boot API
+├── frontend/             # React UI (Vite + Tailwind)
+├── docker-compose.yml    # Combined setup
+└── .gitignore            # Clean Git tracking
 
+````
 
+---
 
+## ⚙️ Prerequisites
 
+```
+- Docker & Docker Compose
+- Node.js (for local frontend dev, optional)
+- Java 17 (for standalone backend dev)
+````
 
-## 🚀 Getting Started (in GitHub Codespaces)
+---
 
-### ✅ 1. Clone & Open Codespace
+## 🔧 Running the Project
 
-bash
-gh repo clone your-username/url-shortener
+### ✅ Option 1: One Command (Recommended)
+```bash
+docker-compose up --build -d
+````
 
+* Runs MongoDB, Redis, and Spring Boot backend
+* Frontend runs on Codespaces preview or localhost
 
-Then **open it in a GitHub Codespace**.
+> Visit: `http://localhost:8080` (or your Codespaces frontend preview URL)
 
+---
 
+## 🖥 Frontend (Dev Mode)
 
-### ✅ 2. Run Backend
-
-bash
-cd backend
-mvn clean spring-boot:run
-
-
-Runs on port 8080.
-
-> Make sure MongoDB is running (localhost:27017) and Redis is installed if caching is used.
-
-
-
-### ✅ 3. Run Frontend
-
-bash
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
+---
 
-Vite runs on port 5173 (or as exposed by Codespaces).
+## 🧪 Backend (Standalone)
 
-
-
-### 🧠 Backend API
-
-* POST /api/shorten → Accepts { url, customAlias? } → Returns shortUrl
-* GET /{shortCode} → Redirects to original URL if valid, otherwise 404
-
-
-
-### ⚙️ Environment Setup (Optional)
-
-#### MongoDB
-
-Install if not present:
-
-bash
-sudo apt update && sudo apt install -y mongodb
-sudo service mongodb start
-
-
-#### Redis (optional)
-
-bash
-sudo apt install redis
-sudo service redis-server start
-
-
-
-
-## 🛠 Build Commands
-
-### Backend (Maven)
-
-bash
+```bash
 cd backend
-mvn clean package
+mvn spring-boot:run
+```
 
+---
 
-### Frontend (Vite + React)
+## 📦 API Endpoints
 
-bash
-cd frontend
-npm run build
+### `POST /api/shorten`
 
+```json
+{
+  "url": "https://example.com"
+}
+```
 
+→ Returns: `{ "shortUrl": "http://localhost:8080/abc123" }`
 
+### `GET /{shortCode}`
 
-## 🧼 Lint & Format (Frontend)
+→ Redirects to the original URL.
 
-bash
-npm run lint
-npm run format
+---
 
+## ✅ Built With
 
+* Spring Boot 2.7+
+* MongoDB & Redis
+* React 18 + Vite
+* Tailwind CSS
+* Docker & Docker Compose
 
+---
 
-## 🌍 Deployment Ready
+## 🙌 Author
 
-* Backend: Can be containerized using Docker
-* Frontend: Can be deployed via Netlify/Vercel
-* Supports port redirection fixes in Codespaces
+Built with ❤️ by [Satyam Shishodiya](https://www.linkedin.com/in/satyam-shishodiya/)
 
+---
 
+## 📄 License
 
-## 📁 Notes
-
-* React automatically adapts localhost:8080 to Codespaces proxy URL
-* React frontend served separately from backend
-
-
-
-## 📸 UI Snapshot
-
-> Add screenshots here after polishing
-
-
-
-## 👨‍💻 Author
-
-Made with ❤️ by [Satyam Shishodiya](https://www.linkedin.com/in/satyam-shishodiya/)
-
+This project is licensed under the MIT License.
