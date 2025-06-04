@@ -30,7 +30,7 @@ public class UrlService {
     public String resolveUrl(String code) {
         String url = redisTemplate.opsForValue().get(code);
         if (url != null) return url;
-        ShortUrl found = urlRepo.findByShortCode(code).orElseThrow();
+        ShortUrl found = urlRepo.findByShortCode(code).orElseThrow(() -> new IllegalArgumentException("Short URL not found"));
         redisTemplate.opsForValue().set(code, found.getOriginalUrl(), Duration.ofDays(7));
         return found.getOriginalUrl();
     }

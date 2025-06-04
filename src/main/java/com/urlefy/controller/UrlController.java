@@ -20,10 +20,4 @@ public class UrlController {
         String code = service.shortenUrl(req.getUrl(), Optional.ofNullable(req.getCustomAlias()));
         return ResponseEntity.ok("http://localhost:8080/" + code);
     }
-
-    @GetMapping("/{code}")
-    public ResponseEntity<?> redirect(@PathVariable String code) {
-        String originalUrl = service.resolveUrl(code);
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(originalUrl)).build();
-    }
 }

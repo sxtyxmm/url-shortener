@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Urlefy - URL Shortener</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 40px auto;
+      max-width: 600px;
+      padding: 10px;
+      text-align: center;
+    }
+    input, button {
+      margin: 8px 0;
+      padding: 10px;
+      width: 80%;
+      font-size: 1rem;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Urlefy</h1>
+  <p>Shorten your long URLs</p>
+
+  <input id="url" type="text" placeholder="Enter long URL" />
+  <br />
+  <input id="alias" type="text" placeholder="Custom alias (optional)" />
+  <br />
+  <button onclick="shorten()">Shorten URL</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    async function shorten() {
+      const url = document.getElementById('url').value;
+      const alias = document.getElementById('alias').value;
+
+      const payload = {
+        url: url,
+        customAlias: alias || null
+      };
+
+      const response = await fetch('/api/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const text = await response.text();
+      document.getElementById('result').textContent = 'Short URL: ' + text;
+    }
+  </script>
+</body>
+</html>
