@@ -21,6 +21,7 @@ public class UrlService {
 
     public String shortenUrl(String originalUrl, Optional<String> customCode) {
         String code = customCode.orElse(generateShortCode());
+        System.out.println("Generated short code: " + code);
         ShortUrl url = new ShortUrl(code, originalUrl, LocalDateTime.now(), LocalDateTime.now().plusDays(7), 0L);
         urlRepo.save(url);
         redisTemplate.opsForValue().set(code, originalUrl, Duration.ofDays(7));
@@ -28,8 +29,12 @@ public class UrlService {
     }
 
     public String resolveUrl(String code) {
+        System.out.println("Looking up code: " + code);
         String url = redisTemplate.opsForValue().get(code);
-        if (url != null) return url;
+        if (url != null) {
+            System.out.println("Found in Redis: " + url);
+            return url;
+        }
         ShortUrl found = urlRepo.findByShortCode(code).orElseThrow(() -> new IllegalArgumentException("Short URL not found"));
         redisTemplate.opsForValue().set(code, found.getOriginalUrl(), Duration.ofDays(7));
         return found.getOriginalUrl();
