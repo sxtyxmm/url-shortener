@@ -19,6 +19,6 @@ public class UrlController {
     @PostMapping("/shorten")
     public ResponseEntity<String> shorten(@RequestBody UrlRequest req) {
         String code = service.shortenUrl(req.getUrl(), Optional.ofNullable(req.getCustomAlias()));
-        return ResponseEntity.ok("http://localhost:8080/" + java.net.URLEncoder.encode(code, "UTF-8"));
+        return ResponseEntity.ok("http://localhost:8080/" + code);
     }
 }

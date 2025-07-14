@@ -21,6 +21,9 @@ public class UrlService {
 
     public String shortenUrl(String originalUrl, Optional<String> customCode) {
         String code = customCode.orElse(generateShortCode());
+        if (!isValidCode(code)) {
+            throw new IllegalArgumentException("Invalid custom alias provided");
+        }
         System.out.println("Generated short code: " + code);
         ShortUrl url = new ShortUrl(code, originalUrl, LocalDateTime.now(), LocalDateTime.now().plusDays(7), 0L);
         urlRepo.save(url);
@@ -42,5 +45,8 @@ public class UrlService {
 
     private String generateShortCode() {
         return UUID.randomUUID().toString().substring(0, 6);
+    }
+    private boolean isValidCode(String code) {
+        return code.matches("^[a-zA-Z0-9_-]+$");
     }
 }
