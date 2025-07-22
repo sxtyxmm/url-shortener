@@ -2,10 +2,48 @@ spring:
   data:
     mongodb:
       uri: mongodb://mongodb:27017/urlefy
+      auto-index-creation: true
 
   redis:
     host: redis                            
     port: 6379
+    timeout: 2000ms
+    lettuce:
+      pool:
+        max-active: 50
+        max-wait: -1ms
+        max-idle: 20
+        min-idle: 10
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: PT24H
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
 
 server:
   port: 8080
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+logging:
+  level:
+    com.urlefy: INFO
+    org.springframework.cache: WARN
+    org.springframework.data.mongodb: WARN
